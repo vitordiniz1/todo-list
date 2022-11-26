@@ -2,13 +2,36 @@ import { useState } from "react";
 import TodoForm from "../components/TodoForm";
 import styles from "./Home.module.css";
 import clipboardIcon from "../assets/clipboard-icon.svg";
+import { Circle, Trash } from "phosphor-react";
+
+interface TodoList {
+  id: string;
+  text: string;
+  finished: boolean;
+}
 
 export default function Home() {
-  const [todoList, setTodoList] = useState([]);
+  const [todoList, setTodoList] = useState<TodoList[]>([]);
+
+  const handleSetTodo = (text: string) => {
+    const newId = new Date().toISOString();
+
+    if (text.length) {
+      setTodoList((state) => [...state, { id: newId, text, finished: false }]);
+    }
+  };
+
+  const handleMarkTodoIsFinished = () => {
+    console.log("todo finalizado");
+  };
+
+  const handleRemoveTodo = () => {
+    console.log("todo removido");
+  };
 
   return (
     <main className={styles.home}>
-      <TodoForm />
+      <TodoForm setTodo={handleSetTodo} />
       <section className={styles.tasks}>
         <div className={styles.info}>
           <div className={styles.created}>
@@ -30,7 +53,22 @@ export default function Home() {
             </span>
           </div>
         ) : (
-          <ul className={styles.list}></ul>
+          <ul className={styles.list}>
+            {todoList.map((todo) => (
+              <li key={todo.id}>
+                <div
+                  className={styles.finish}
+                  onClick={handleMarkTodoIsFinished}
+                >
+                  <Circle size={18} />
+                </div>
+                <div className={styles.text}>{todo.text}</div>
+                <div className={styles.trash} onClick={handleRemoveTodo}>
+                  <Trash size={18} />
+                </div>
+              </li>
+            ))}
+          </ul>
         )}
       </section>
     </main>
