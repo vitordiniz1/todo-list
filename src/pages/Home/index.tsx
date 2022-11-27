@@ -19,8 +19,14 @@ export default function Home() {
   useEffect(() => {
     const storageTodos = localStorage.getItem(storageKey);
 
-    if (storageTodos) {
-      setTodoList(JSON.parse(storageTodos));
+    if (!todoList.length && storageTodos) {
+      const storageTodosConverted = JSON.parse(storageTodos);
+
+      setTodoList(storageTodosConverted);
+
+      storageTodosConverted.map((todo: TodoListProps) => {
+        todo.finished ? setFinishedTodos((state) => state + 1) : null;
+      });
     }
   }, []);
 
@@ -40,7 +46,7 @@ export default function Home() {
           setFinishedTodos((state) => state + 1);
           return { ...todo, finished: true };
         } else if (todo.finished && todo.id === id) {
-          setFinishedTodos((state) => state - 1);
+          setFinishedTodos((state) => (state > 0 ? state - 1 : 0));
           return { ...todo, finished: false };
         } else {
           return todo;
