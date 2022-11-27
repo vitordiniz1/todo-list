@@ -1,10 +1,10 @@
 import styles from "./styles.module.css";
 import { TodoListProps } from "../..";
-import { Circle, Trash } from "phosphor-react";
+import { Circle, CheckCircle, Trash } from "phosphor-react";
 
 interface TodoItemProps extends TodoListProps {
-  markTodoHasFinished: (id: string) => void;
-  removeTodo: (id: string) => void;
+  markTodoHasFinished: (id: number) => void;
+  removeTodo: (id: number) => void;
 }
 
 export default function TodoItem({
@@ -23,9 +23,21 @@ export default function TodoItem({
   };
 
   return (
-    <li className={styles.item} data-finished={finished} key={id}>
-      <div className={styles.finish} onClick={handleMarkTodoHasFinished}>
-        <Circle size={18} />
+    <li
+      className={`${styles.item} ${finished ? styles.finished : ""}`}
+      data-finished={finished}
+      key={id}
+    >
+      <div className={styles.finish}>
+        <label htmlFor={`${id}`}>
+          {finished ? <CheckCircle size={18} /> : <Circle size={18} />}
+        </label>
+        <input
+          type="checkbox"
+          id={`${id}`}
+          onClick={handleMarkTodoHasFinished}
+          hidden
+        />
       </div>
       <div className={styles.text}>{text}</div>
       <div className={styles.trash} onClick={handleRemoveTodo}>

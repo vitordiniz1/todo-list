@@ -8,12 +8,12 @@
     position: relative;
 }
 
-.finish svg {
+.finish label svg {
     color: var(--blue);
     cursor: pointer;
 }
 
-.finish svg:hover {
+.finish label svg:hover {
     color: var(--blue-dark)
 }
 
@@ -23,8 +23,6 @@
     color: var(--gray-100);
 }
 
-
-
 .trash svg {
     color: var(--gray-300);
     cursor: pointer;
@@ -32,5 +30,22 @@
 
 .trash svg:hover {
     color: var(--danger);
+}
+
+.finished {
+    background-color: var(--gray-500)
+}
+
+.finished .text {
+    color: var(--gray-300);
+    text-decoration: line-through;
+}
+
+.finished .finish label svg {
+    color: var(--purple-dark);
+}
+
+.finished .finish label svg:hover {
+    color: var(--purple)
 }
 

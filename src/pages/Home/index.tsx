@@ -5,28 +5,44 @@ import clipboardIcon from "../../assets/clipboard-icon.svg";
 import TodoItem from "./components/TodoItem";
 
 export interface TodoListProps {
-  id: string;
+  id: number;
   text: string;
   finished: boolean;
 }
 
 export default function Home() {
   const [todoList, setTodoList] = useState<TodoListProps[]>([]);
+  const [finishedTodos, setFinishedTodos] = useState<number>(0);
 
   const handleSetTodo = (text: string) => {
-    const newId = new Date().toISOString();
+    const newId = Number(new Date());
 
     if (text.length) {
       setTodoList((state) => [...state, { id: newId, text, finished: false }]);
     }
   };
 
-  const markTodoHasFinished = (id: string) => {
-    console.log(id);
+  const markTodoHasFinished = (id: number) => {
+    setTodoList(
+      todoList.map((todo) => {
+        if (!todo.finished && todo.id === id) {
+          setFinishedTodos((state) => state + 1);
+          return { ...todo, finished: true };
+        } else if (todo.finished && todo.id === id) {
+          setFinishedTodos((state) => state - 1);
+          return { ...todo, finished: false };
+        } else {
+          return todo;
+        }
+      })
+    );
   };
 
-  const removeTodo = (id: string) => {
-    console.log(id);
+  const removeTodo = (id: number) => {
+    const filteredTodos = todoList.filter((todo) => todo.id !== id);
+
+    setTodoList(filteredTodos);
+    setFinishedTodos((state) => state - 1);
   };
 
   return (
@@ -35,11 +51,14 @@ export default function Home() {
       <section className={styles.tasks}>
         <div className={styles.info}>
           <div className={styles.created}>
-            Tarefas criadas <span className={styles.counter}>0</span>
+            Tarefas criadas{" "}
+            <span className={styles.counter}>{todoList.length}</span>
           </div>
           <div className={styles.done}>
             Conclúidas
-            <span className={styles.counter}>0</span>
+            <span className={styles.counter}>
+              {finishedTodos} {todoList.length ? `de ${todoList.length}` : ""}
+            </span>
           </div>
         </div>
         {!todoList.length ? (
