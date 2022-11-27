@@ -16,26 +16,29 @@ export default function Home() {
 
   const storageKey = "ignite-todo-list-1.0.0";
 
-  useEffect(() => {
-    const storageTodos = localStorage.getItem(storageKey);
+  const storageTodos = localStorage.getItem(storageKey);
 
+  useEffect(() => {
     if (!todoList.length && storageTodos) {
       const storageTodosConverted = JSON.parse(storageTodos);
 
       setTodoList(storageTodosConverted);
+    }
 
-      storageTodosConverted.map((todo: TodoListProps) => {
+    if (!finishedTodos) {
+      todoList.map((todo) => {
         todo.finished ? setFinishedTodos((state) => state + 1) : null;
       });
     }
-  }, []);
+
+    localStorage.setItem(storageKey, JSON.stringify(todoList));
+  }, [todoList]);
 
   const handleSetTodo = (text: string) => {
     const newId = Number(new Date());
 
     if (text.length) {
       setTodoList((state) => [...state, { id: newId, text, finished: false }]);
-      localStorage.setItem(storageKey, JSON.stringify(todoList));
     }
   };
 
@@ -48,7 +51,7 @@ export default function Home() {
               setFinishedTodos((state) => state + 1);
               return { ...todo, finished: true };
             } else {
-              setFinishedTodos((state) => (state > 0 ? state - 1 : 0));
+              setFinishedTodos((state) => state - 1);
               return { ...todo, finished: false };
             }
           default:
@@ -56,19 +59,16 @@ export default function Home() {
         }
       })
     );
-
-    localStorage.setItem(storageKey, JSON.stringify(todoList));
   };
 
   const removeTodo = (id: number, finished: boolean) => {
     const filteredTodos = todoList.filter((todo) => todo.id !== id);
 
-    if (finished) {
-      setFinishedTodos((state) => state - 1);
-    }
+    todoList.length === 1 ? localStorage.removeItem(storageKey) : null;
+
+    finished ? setFinishedTodos((state) => state - 1) : null;
 
     setTodoList(filteredTodos);
-    localStorage.setItem(storageKey, JSON.stringify(todoList));
   };
 
   return (
