@@ -2,7 +2,7 @@
 
 ## Descrição do projeto
 
-Este projeto é um desafio do curso RectJS do Ignite onde consiste em desenvolver uma lista no estilo todo com funções de adicionar, excluir e marcar como conclúido.
+Este projeto é um desafio do curso ReactJS do Ignite onde consiste em desenvolver uma lista no estilo todo com funções de adicionar, excluir e marcar como conclúido.
 
 Além das funções citadas acima, foi incluído também uma função que seta a lista no localStorage para poder resgatá-la assim que o projeto for recarregado.
 
