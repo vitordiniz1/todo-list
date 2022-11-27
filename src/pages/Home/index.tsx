@@ -42,14 +42,17 @@ export default function Home() {
   const markTodoHasFinished = (id: number) => {
     setTodoList(
       todoList.map((todo) => {
-        if (!todo.finished && todo.id === id) {
-          setFinishedTodos((state) => state + 1);
-          return { ...todo, finished: true };
-        } else if (todo.finished && todo.id === id) {
-          setFinishedTodos((state) => (state > 0 ? state - 1 : 0));
-          return { ...todo, finished: false };
-        } else {
-          return todo;
+        switch (todo.id) {
+          case id:
+            if (!todo.finished) {
+              setFinishedTodos((state) => state + 1);
+              return { ...todo, finished: true };
+            } else {
+              setFinishedTodos((state) => (state > 0 ? state - 1 : 0));
+              return { ...todo, finished: false };
+            }
+          default:
+            return todo;
         }
       })
     );
