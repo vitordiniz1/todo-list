@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TodoForm from "./components/TodoForm";
 import styles from "./styles.module.css";
 import clipboardIcon from "../../assets/clipboard-icon.svg";
@@ -14,11 +14,22 @@ export default function Home() {
   const [todoList, setTodoList] = useState<TodoListProps[]>([]);
   const [finishedTodos, setFinishedTodos] = useState<number>(0);
 
+  const storageKey = "ignite-todo-list-1.0.0";
+
+  useEffect(() => {
+    const storageTodos = localStorage.getItem(storageKey);
+
+    if (storageTodos) {
+      setTodoList(JSON.parse(storageTodos));
+    }
+  }, []);
+
   const handleSetTodo = (text: string) => {
     const newId = Number(new Date());
 
     if (text.length) {
       setTodoList((state) => [...state, { id: newId, text, finished: false }]);
+      localStorage.setItem(storageKey, JSON.stringify(todoList));
     }
   };
 
@@ -36,13 +47,19 @@ export default function Home() {
         }
       })
     );
+
+    localStorage.setItem(storageKey, JSON.stringify(todoList));
   };
 
-  const removeTodo = (id: number) => {
+  const removeTodo = (id: number, finished: boolean) => {
     const filteredTodos = todoList.filter((todo) => todo.id !== id);
 
+    if (finished) {
+      setFinishedTodos((state) => state - 1);
+    }
+
     setTodoList(filteredTodos);
-    setFinishedTodos((state) => state - 1);
+    localStorage.setItem(storageKey, JSON.stringify(todoList));
   };
 
   return (

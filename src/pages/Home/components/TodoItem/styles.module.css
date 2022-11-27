@@ -8,12 +8,12 @@
     position: relative;
 }
 
-.finish label svg {
+.finish svg {
     color: var(--blue);
     cursor: pointer;
 }
 
-.finish label svg:hover {
+.finish svg:hover {
     color: var(--blue-dark)
 }
 
@@ -23,9 +23,15 @@
     color: var(--gray-100);
 }
 
+.trash {
+    background: none;
+    border: 0;
+}
+
 .trash svg {
     color: var(--gray-300);
     cursor: pointer;
+    height: 100%;
 }
 
 .trash svg:hover {
@@ -41,11 +47,11 @@
     text-decoration: line-through;
 }
 
-.finished .finish label svg {
+.finished .finish svg {
     color: var(--purple-dark);
 }
 
-.finished .finish label svg:hover {
+.finished .finish svg:hover {
     color: var(--purple)
 }
 

@@ -4,7 +4,7 @@ import { Circle, CheckCircle, Trash } from "phosphor-react";
 
 interface TodoItemProps extends TodoListProps {
   markTodoHasFinished: (id: number) => void;
-  removeTodo: (id: number) => void;
+  removeTodo: (id: number, finished: boolean) => void;
 }
 
 export default function TodoItem({
@@ -19,7 +19,7 @@ export default function TodoItem({
   };
 
   const handleRemoveTodo = () => {
-    removeTodo(id);
+    removeTodo(id, finished);
   };
 
   return (
@@ -28,21 +28,20 @@ export default function TodoItem({
       data-finished={finished}
       key={id}
     >
-      <div className={styles.finish}>
-        <label htmlFor={`${id}`}>
-          {finished ? <CheckCircle size={18} /> : <Circle size={18} />}
-        </label>
-        <input
-          type="checkbox"
-          id={`${id}`}
-          onClick={handleMarkTodoHasFinished}
-          hidden
-        />
-      </div>
-      <div className={styles.text}>{text}</div>
-      <div className={styles.trash} onClick={handleRemoveTodo}>
+      <label className={styles.finish} htmlFor={`${id}`}>
+        {finished ? <CheckCircle size={18} /> : <Circle size={18} />}
+      </label>
+      <input
+        type="checkbox"
+        id={`${id}`}
+        data-checked={finished}
+        hidden
+        onClick={handleMarkTodoHasFinished}
+      />
+      <span className={styles.text}>{text}</span>
+      <button className={styles.trash} onClick={handleRemoveTodo}>
         <Trash size={18} />
-      </div>
+      </button>
     </li>
   );
 }
