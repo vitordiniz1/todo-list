@@ -2,7 +2,7 @@ import Header from "./components/Header";
 import Home from "./pages/Home";
 import "./styles/global.css";
 
-function App() {
+export default function App() {
   return (
     <div className="App">
       <Header />
@@ -10,5 +10,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
