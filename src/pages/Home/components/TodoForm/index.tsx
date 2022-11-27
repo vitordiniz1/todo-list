@@ -1,4 +1,4 @@
-import styles from "./TodoForm.module.css";
+import styles from "./styles.module.css";
 import { PlusCircle } from "phosphor-react";
 import { ChangeEvent, FormEvent, useState } from "react";
 
@@ -27,6 +27,7 @@ export default function TodoForm({ setTodo }: TodoFormProps) {
         placeholder="Adicionar uma nova tarefa"
         value={textInput}
         onChange={getTextTodo}
+        required
       />
       <button type="submit">
         Criar <PlusCircle size={18} />

@@ -1,17 +1,17 @@
 import { useState } from "react";
-import TodoForm from "../components/TodoForm";
-import styles from "./Home.module.css";
-import clipboardIcon from "../assets/clipboard-icon.svg";
-import { Circle, Trash } from "phosphor-react";
+import TodoForm from "./components/TodoForm";
+import styles from "./styles.module.css";
+import clipboardIcon from "../../assets/clipboard-icon.svg";
+import TodoItem from "./components/TodoItem";
 
-interface TodoList {
+export interface TodoListProps {
   id: string;
   text: string;
   finished: boolean;
 }
 
 export default function Home() {
-  const [todoList, setTodoList] = useState<TodoList[]>([]);
+  const [todoList, setTodoList] = useState<TodoListProps[]>([]);
 
   const handleSetTodo = (text: string) => {
     const newId = new Date().toISOString();
@@ -21,12 +21,12 @@ export default function Home() {
     }
   };
 
-  const handleMarkTodoIsFinished = () => {
-    console.log("todo finalizado");
+  const markTodoHasFinished = (id: string) => {
+    console.log(id);
   };
 
-  const handleRemoveTodo = () => {
-    console.log("todo removido");
+  const removeTodo = (id: string) => {
+    console.log(id);
   };
 
   return (
@@ -55,18 +55,14 @@ export default function Home() {
         ) : (
           <ul className={styles.list}>
             {todoList.map((todo) => (
-              <li key={todo.id}>
-                <div
-                  className={styles.finish}
-                  onClick={handleMarkTodoIsFinished}
-                >
-                  <Circle size={18} />
-                </div>
-                <div className={styles.text}>{todo.text}</div>
-                <div className={styles.trash} onClick={handleRemoveTodo}>
-                  <Trash size={18} />
-                </div>
-              </li>
+              <TodoItem
+                id={todo.id}
+                text={todo.text}
+                finished={todo.finished}
+                markTodoHasFinished={markTodoHasFinished}
+                removeTodo={removeTodo}
+                key={todo.id}
+              />
             ))}
           </ul>
         )}
